@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title>Alsberg TV</title>
+    <script src="ProjectTV/myproject/ProjectTV/app/static/data.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready( function(){
+        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <button id="button" class="btn btn-default">start</button>
+            <button id="bildbutton" class="btn btn-default">next</button>
+            <button id="seasonbutton" class="btn btn-default">get episodes</button>
+        </div>
+        
+        <div clasS="row">
+            <script>
+                function test(){
+                    var tes = document.getElementById('test');
+                    console.log(serien.americandad.elf[0])
+                }
+                test()
+            </script>
+            <p id="test" >testestestestestest</p>
+            <p id="test2">guck ma mal oidaaaaaa</p>
+            <a id="test4" href="">schau ma mal ob das funktionniert</a>
+        </div>
+        <div class="row">
+            <input name="serie" type="text" class="btn btn-default">
+            <div class="col-md-1">
+                <input name="season" type="text" class="btn btn-default">
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <video id="video" controls="true">
+                    <source id="source" src="" >
+                </video>
+            </div>
+        </div>
+        <div class="row">
+            <button id="play" class="btn btn-default">play</button>
+            <button id="next" class="btn btn-default">next video</button>
+        </div>
+        <div class="row">
+            <img id="bild" src="">
+
+        </div>
+    </div>
+
+</body>
+
+
+</html>
+
+
+
+
