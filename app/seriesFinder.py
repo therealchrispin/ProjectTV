@@ -88,11 +88,6 @@ class seriesFinder:
         f = open('/Users/chris.als/Desktop/ProjectTV/app/static/images/textFiles/' + Title+'.txt', 'r')
         return f.read()
 
-
-
-
-
-
     def get_all_episodes(self,season_url):
         liste = []
         season_html = BeautifulSoup.BeautifulSoup(urllib2.urlopen(season_url).read())

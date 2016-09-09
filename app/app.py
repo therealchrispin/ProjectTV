@@ -27,31 +27,14 @@ def all_series():
 
 @app.route('/animated')
 def getAnimated():
-
-    datei = open('/Users/chris.als/Desktop/ProjectTV/app/static/images/textFiles/Animation.txt',"r").read()
-
-    liste = []
-    i = 2
-    while i < len(datei):
-        a = datei.find("]",i)
-        liste.append(datei[i:a].replace("u'","").replace("',", " -").replace("'","").split(" - "))
-        i = a+4
-
+    liste = getSeriesTextfile('Animation')
 
     return jsonify(ergebnis=liste)
 
 @app.route('/comedy')
 def getComedy():
     #seriesFinder.writeTextfiles('Comedy',str(seriesFinder.comedy))
-
-    datei = open('/Users/chris.als/Desktop/ProjectTV/app/static/images/textFiles/Comedy.txt',"r").read()
-
-    liste = []
-    i = 2
-    while i < len(datei):
-        a = datei.find("]",i)
-        liste.append(datei[i:a].replace("u'","").replace("',", " -").replace("'","").split(" - "))
-        i = a+4
+    liste =  getSeriesTextfile('Comedy')
 
     return jsonify(ergebnis=liste)
 
@@ -59,8 +42,12 @@ def getComedy():
 @app.route('/drama')
 def getDrama():
     #seriesFinder.writeTextfiles('Drama',str(seriesFinder.drama))
+    liste = getSeriesTextfile('Drama')
 
-    datei = open('/Users/chris.als/Desktop/ProjectTV/app/static/images/textFiles/Drama.txt',"r").read()
+    return jsonify(ergebnis=liste)
+
+def getSeriesTextfile(title):
+    datei = open('/Users/chris.als/Desktop/ProjectTV/app/static/images/textFiles/'+title+'.txt',"r").read()
 
     liste = []
     i = 2
@@ -69,8 +56,7 @@ def getDrama():
         liste.append(datei[i:a].replace("u'","").replace("',", " -").replace("'","").split(" - "))
         i = a+4
 
-    return jsonify(ergebnis=liste)
-
+    return liste
 
 
 @app.route('/get_serie_url')
@@ -81,7 +67,7 @@ def get_serie_url():
     serie = "+".join(serie.split(" "))
 
     for key,value in seriesFinder.serieList.iteritems():
-        if SequenceMatcher(None,serie.lower(),key.lower()).ratio()>0.7:
+        if SequenceMatcher(None,serie.lower(),key.lower()).ratio()>0.8:
             result = [key, seriesFinder.serieList[key]]
             break
         else:
@@ -119,6 +105,21 @@ def get_episodes():
 
     return jsonify(ergebnis=episode)
 
+@app.route('/get_poster')
+def get_poster():
+    print " getting Poster"
+    poster = request.args.get('Poster', 0, type=str)
+    Title = "_".join(request.args.get('Title', 0, type=str).split(" "))
+    filename = Title + ".jpg"
+
+    f = open('/Users/chris.als/Desktop/ProjectTV/app/static/images/' + filename, 'wb')
+    f.write(requests.get(poster).content)
+    f.close()
+
+    result = [" ".join(Title.split("_")), 'http://127.0.0.1:5000/static/images/'+filename]
+
+    return jsonify(ergebnis=result)
+
 def getStreamcloudUrl(bstoUrl):
     html = urllib2.urlopen(bstoUrl).read()
     soup = BeautifulSoup.BeautifulSoup(html)
@@ -154,20 +155,7 @@ def streamcloudparser(url):
     else:
         return r.group()
 
-@app.route('/get_poster')
-def get_poster():
-    print " getting Poster"
-    poster = request.args.get('Poster', 0, type=str)
-    Title = "_".join(request.args.get('Title', 0, type=str).split(" "))
-    filename = Title + ".jpg"
 
-    f = open('/Users/chris.als/Desktop/ProjectTV/app/static/images/' + filename, 'wb')
-    f.write(requests.get(poster).content)
-    f.close()
-
-    result = [" ".join(Title.split("_")), 'http://127.0.0.1:5000/static/images/'+filename]
-
-    return jsonify(ergebnis=result)
 
 def countSeason(url):
     bsto = urllib2.urlopen(url=url).read()
@@ -188,5 +176,4 @@ def test():
     return render_template('test.html')
 
 if __name__ == "__main__":
-    app.run()
- #app.run(host='192.168.0.12', port="5000")
+  app.run(host='129.187.39.211', port="5000")

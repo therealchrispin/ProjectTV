@@ -13,7 +13,18 @@ var video = document.getElementById('video');
 var test = -20;
 
 $('#video-container').hide();
-$('.loader').hide();
+$('.progress').hide();
+
+    
+function progressBarAnimate(){
+    $(".progress-bar").animate({
+        width: "100%"
+    }, 13000);
+        $(".progress-bar").animate({
+        width: "0%"
+    },0);
+}    
+    
 
 $('#play-icon').click(function() {
         var video = document.getElementById('video');
@@ -76,7 +87,7 @@ function automaticPlay(){
     if($('#detailView').not(":visible")){
         $('#video-container').show();    
     }
-    $('.loader').hide();
+    $('.progress').hide();
     video.load();
     video.play();
     video.addEventListener("timeupdate",function() {
@@ -87,11 +98,17 @@ function automaticPlay(){
             test += 20;
             getEpisode();
         }
+        var currentMin = parseInt(time/60);
+        var currentSec = ((time/60 - currentMin)*60).toFixed();
+        var durationMin = parseInt(video.duration/60);
+        var durationSec = ((video.duration/60 - durationMin)*60).toFixed();
+        $('#clock').text(currentMin + ":" + currentSec +'/'+ durationMin+':'+durationSec);
+        
     });
 }
 
 function getEpisode() {
-    $.getJSON('http://127.0.0.1:5000/get_episodes',
+    $.getJSON('http://129.187.39.211:5000/get_episodes',
     {url:serienUrl,
     season:seasonNr,
     episode:episodeNr},function(data){
@@ -104,7 +121,7 @@ function getEpisode() {
     }
 
 function getSerie(){
-        $.getJSON('http://127.0.0.1:5000/get_serie_url',
+        $.getJSON('http://129.187.39.211:5000/get_serie_url',
         {serie:name},
         function(data){
             omdbApiUrl = data.ergebnis[0];
@@ -117,7 +134,7 @@ $('#button').click(function(){
     name = document.getElementById('serienInput').value;
     var title ="";
     var poster ="";
-    $.getJSON('http://127.0.0.1:5000/get_serie_url',
+    $.getJSON('http://129.187.39.211:5000/get_serie_url',
         {serie:name},
         function(data){
             omdbApiUrl = data.ergebnis[0];
@@ -125,7 +142,7 @@ $('#button').click(function(){
             $.getJSON('http://www.omdbapi.com/?t='+data.ergebnis[0]+'&y=&plot=short&r=json',
                      function(data){
                         title = data.Title;
-                        $.getJSON('http://127.0.0.1:5000/get_poster',
+                        $.getJSON('http://129.187.39.211:5000/get_poster',
                                  {Title:data.Title,
                                  Poster:data.Poster},
                                  function(data){
@@ -136,14 +153,14 @@ $('#button').click(function(){
 });
 
 function fillContainer(){
-    $.getJSON('http://127.0.0.1:5000/animated',
+    $.getJSON('http://129.187.39.211:5000/animated',
             function(data){
                 pupulate(data.ergebnis,'#container');
     });
 }
 
 function fillComdedyContainer(){
-    $.getJSON('http://127.0.0.1:5000/comedy',
+    $.getJSON('http://129.187.39.211:5000/comedy',
             function(data){
                 pupulate(data.ergebnis,'#comedyContainer');
     });
@@ -151,7 +168,7 @@ function fillComdedyContainer(){
 }
     
 function fullDramaContainer(){
-    $.getJSON('http://127.0.0.1:5000/drama',
+    $.getJSON('http://129.187.39.211:5000/drama',
             function(data){
                 pupulate(data.ergebnis,'#dramaContainer');
     });
@@ -168,7 +185,7 @@ function pupulate(imgListe,id){
                     div
                     +'<div class="item">'
                     +'<img class="fotos" '
-                    + 'src="'+imgListe[index][1] +'" ' 
+                    + 'src="'+imgListe[index][1].replace('http://127.0.0.1:5000/static/images/','http://129.187.39.211:5000/static/images/') +'" ' 
                     + 'title="'+imgListe[index][0]+'" '
                     +'>'
                     +'</div>'
@@ -274,7 +291,8 @@ $('#episodesContainer').on('click','a',function(){
             video.pause();
         }
     
-    $('.loader').show();
+    $('.progress').show();
+    progressBarAnimate();
 
     getSerie();
 })
@@ -296,11 +314,7 @@ $('.scrollDown').click(function(){
     $(this).parent().find('div').scrollTop(scrollposition - 240);
 });    
 
-    
 
-
-    
-    
     
     
     

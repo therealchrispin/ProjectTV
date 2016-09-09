@@ -1,37 +1,40 @@
 body {
-    background-color:  #111111;
+    background-color:  #141414;
     font-weight:bold;
     color: white;
     padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    overflow-x: hidden;
 
 }
 
+h2{
+    padding-left: 100px;
+}
 
 img{ 
     width: 200px;
     height: 240px;
     margin: auto;
     padding: 5px;
+
     
 }
 .item{
     display: inline-block;
-    width: 200px;
     height: 240px;
 }
 
 img:hover{
     width: 202px;
     height: 242px;
-    background-color: aqua;
     cursor: pointer;
-    z-index: 2147483647;
+    background-color: #939393;
 }
 
 .imgContainer{
-    padding-left: 100px;
+    padding-left: 50px;
+    z-index: -100;
+    width: 100%;
     height: 240px;
     overflow: -moz-scrollbars-none;
 }
@@ -136,8 +139,6 @@ video {
     font-weight: bold;
 }
 
-
-
 input[type=range] {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
@@ -161,9 +162,6 @@ input[type=range]::-ms-track {
   border-color: transparent;
   color: transparent;
 }
-
-
-
 
 input[type=range]::-moz-range-thumb {
     border-radius: 0;
@@ -201,41 +199,61 @@ input[type="range"]::-moz-range-progress {
 }
 
 .animationSlider{
+    position:relative;
+    margin-left: 20px;
 }
 
-#scrollDown{
+.scrollDown{
+    position:absolute;
     cursor: pointer;
-    padding-top: 90px;
-    z-index: 2;
-    float:left;
-    font-size: 30px;
-}
-
-#scroll{
-    cursor: pointer;
-    padding-top: 90px;
-    z-index: 2;
+    padding-left: 30px;
+    padding-top: 80px;
+    z-index: 100;
     float:right;
-    font-size: 30px;
+    font-size: 80px;
+    height: 240px;
+    background: rgba(0,0,0,0.3)
+
+
+
 }
 
-#scrollDown:hover{
+.scroll{
+    position:absolute;
+    cursor: pointer;
+    padding-right: 30px;
+    padding-top: 80px;
+    z-index: 110;
+    float:left;
+    font-size: 80px;
+    right: 30px;
+    height: 240px;
+    background: rgba(0,0,0,0.3)
+
+
+}
+
+.scrollDown:hover{
     color: silver;
     text-shadow: 1px 1px 1px black;
 }
 
-#scrollDown:active {
+.scrollDown:active {
   color: white;
   text-shadow: 0px 0px 1px black;
 }
-#scroll:hover{
+.scroll:hover{
     color: silver;
     text-shadow: 1px 1px 1px black;
 }
 
-#scroll:active {
+.scroll:active {
   color: white;
   text-shadow: 0px 0px 1px black;
+}
+#episodeWrapper{
+    width: 620px;
+    overflow: hidden;
 }
 
 #episodesContainer{
@@ -270,22 +288,6 @@ input[type="range"]::-moz-range-progress {
     border-radius: 0px !important;
 }
 
-
-.loader {
-    margin: auto;
-    border: 4px solid #f3f3f3; /* Light grey */
-    border-top: 4px solid aqua; /* Blue */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 .navbar{
     background-color: black;
     border-radius: 0px;
@@ -295,3 +297,12 @@ input[type="range"]::-moz-range-progress {
     padding-top: 20px;
     float:right;
 }
+
+.progress-bar {
+    border-radius: 0px !important;
+    background-color: aqua;
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+
+
