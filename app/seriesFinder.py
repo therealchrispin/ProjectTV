@@ -20,16 +20,18 @@ class seriesFinder:
         dict = {}
 
         if url == "":
-            url = "https://bs.to/andere-serien"
+            url = "http://serienstream.to/serien"
 
-        bst = urllib2.urlopen(url)
+        opener = urllib2.build_opener()
+        opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+        bst = opener.open(url)
         bs = BeautifulSoup.BeautifulSoup(bst)
 
         for tag in bs.findAll('a', href=True):
                 list.append(str(tag['href']))
 
         for serie in list:
-            dict["+".join("".join(serie.split("serie/")).split("-")).lower()] = "https://bs.to/" + serie
+            dict["+".join("".join(serie.split("http://serienstream.to/serie/stream/")).split("-")).lower()] = serie
 
         return dict
 

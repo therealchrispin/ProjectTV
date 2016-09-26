@@ -90,18 +90,19 @@ def get_episodes():
     if episode == 0 or episode is None or episode == "":
         episode = 1
 
-    html = urllib2.urlopen(url+"/"+str(season)).read()
-    soup = BeautifulSoup.BeautifulSoup(html)
-    soupLinks = soup.findAll('a',title="Streamcloud")
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+    bst = opener.open(url+'/staffel-'+str(season)+'/episode-'+str(episode))
+    soup = BeautifulSoup.BeautifulSoup(bst)
+    soupLinks = soup.findAll('a')
 
-    pattern = r'serie/(.+?)/' + re.escape(str(season)) + r'/' + re.escape(str(episode)) + r'-(.+?)/Streamcloud.[0-9]'
+
     episodeUrl = ""
     for tag in soupLinks:
-        if re.search(pattern, str(tag)) is not None:
-            episodeUrl = "https://bs.to/" + re.search(pattern, str(tag)).group()
+        if re.search('http://streamcloud(.+?)', str(tag)) is not None:
+            episodeUrl = "".join((re.search('http://streamcloud(.+?)"', str(tag)).group()).split('"'))
 
-    streamcloudUrl = getStreamcloudUrl(episodeUrl)
-    episode = streamcloudparser(streamcloudUrl)
+    episode = streamcloudparser(episodeUrl)
 
     return jsonify(ergebnis=episode)
 
